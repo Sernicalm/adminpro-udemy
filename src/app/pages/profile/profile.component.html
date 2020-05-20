@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Datos usuario</h4>
+                <h6 class="card-subtitle"> Datos </h6>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form ngNativeValidate #f="ngForm" (ngSubmit)="guardar( f )">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nombre usuario</label>
+                                <input [ngModel]="usuario.nombre" name="nombre" type="text" class="form-control" placeholder="Nombre usuario" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input [ngModel]="usuario.email" [disabled]="usuario.google" name="email" type="email" class="form-control" placeholder="Email">
+                            </div>
+
+                            <button type="submit" class="btn btn-block btn-success waves-effect waves-light m-r-10"><i class="fa fa-save"></i> Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body" align="center">
+                <h4 class="card-title">Foto del usuario</h4>
+                <h6 class="card-subtitle"> nombre usuario </h6>
+
+                <img *ngIf="!imagenTmp" [src]="usuario.img | imagen" class="w150">
+                <img *ngIf="imagenTmp" [src]="imagenTmp" class="w150">
+
+                <input (change)="seleccionImagen( $event )" type="file">
+
+                <br>
+                <br>
+
+                <button (click)="cambiarImagen()" [disabled]="!imagenSubir" type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">Actualizar foto</button>
+            </div>
+        </div>
+    </div>
+
+</div>

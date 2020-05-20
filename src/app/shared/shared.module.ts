@@ -9,6 +9,10 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
 
+//PIPES
+import { PipesModule } from '../pipes/pipes.module';
+
+
 @NgModule({
     declarations:[
         HeaderComponent,
@@ -24,7 +28,8 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
     ],
     imports: [
         RouterModule,
-        CommonModule
+        CommonModule,
+        PipesModule
     ]
 
 })
