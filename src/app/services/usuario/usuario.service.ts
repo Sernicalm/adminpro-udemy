@@ -21,7 +21,7 @@ export class UsuarioService {
     public _subirArchivoService:SubirArchivoService
     ) {
       this.cargarStorage();
-      console.log('Servicio usuario listo');
+
     }
 
   cargarStorage(){
@@ -113,8 +113,10 @@ export class UsuarioService {
     return this.http.put(url,usuario).pipe(
       map((resp:any)=>{
 
-        let usuarioResp:Usuario = resp.usuario;
-        this.guardarStorage(usuarioResp._id,this.token,usuarioResp);
+        if(usuario._id === this.usuario._id){
+          let usuarioResp:Usuario = resp.usuario;
+          this.guardarStorage(usuarioResp._id,this.token,usuarioResp);
+        }  
 
         Swal.fire({
           title: 'Usuario actualizado:',
@@ -154,5 +156,42 @@ export class UsuarioService {
 
     });
    }
+
+   cargarUsuarios(desde:number){
+
+    let url=`${URL_SERVICIOS}/usuario?desde=${desde}`;
+
+    return this.http.get(url);
+
+   }
+
+   buscarUsuario(termino:string){
+
+    let url=`${URL_SERVICIOS}/busqueda/coleccion/usuario/${termino}`;
+    
+    return this.http.get(url);   
+
+   }
+
+   borrarUsuario(id:string){
+
+    let url=`${URL_SERVICIOS}/usuario/${id}`;
+    url +=`?token=${this.token}`;
+
+    return this.http.delete(url).pipe(
+      map(resp=>{
+        Swal.fire(
+          'Borrado!',
+          'El registro de ha borrado.',
+          'success'
+        )
+        return true;
+      }    
+      )
+    );
+
+   }
+
+  
 
 }
