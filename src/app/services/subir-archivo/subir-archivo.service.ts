@@ -32,7 +32,6 @@ export class SubirArchivoService {
 
       let url = `${URL_SERVICIOS}/upload/${tipo}/${id}`;
 
-      console.log(url);
 
       
       xhr.open('PUT', url, true);

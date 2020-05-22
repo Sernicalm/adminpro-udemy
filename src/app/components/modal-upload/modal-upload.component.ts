@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 import { SubirArchivoService } from '../../services/subir-archivo/subir-archivo.service';
 import { ModalUploadService } from './modal-upload.service';
@@ -10,6 +10,8 @@ import { ModalUploadService } from './modal-upload.service';
 })
 export class ModalUploadComponent implements OnInit {
 
+  @ViewChild('fileUploader') fileUploader:ElementRef;
+  
   imagenSubir:File;
 
   imagenTmp:string;
@@ -23,7 +25,6 @@ export class ModalUploadComponent implements OnInit {
   }
 
   seleccionImagen(evento){
-
     
 
     if(!evento.target.files[0]){
@@ -56,13 +57,18 @@ export class ModalUploadComponent implements OnInit {
   cerrarModal(){
     this.imagenSubir = null;
     this.imagenTmp = null;
+    
+    this.fileUploader.nativeElement.value = null;
+
     this._modalUploadService.ocultarModal();
+    
   }
 
   subirImagen(){
 
     this._subirArchivoService.subirArchivo(this.imagenSubir,this._modalUploadService.tipo,this._modalUploadService.id)
         .then(resp=>{
+
 
           this._modalUploadService.notificacion.emit(resp);
           this.cerrarModal();
