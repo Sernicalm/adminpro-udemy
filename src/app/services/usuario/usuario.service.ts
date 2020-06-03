@@ -26,6 +26,28 @@ export class UsuarioService {
 
     }
 
+    renuevaToken(){
+      let url = `${URL_SERVICIOS}/login/renuevatoken`;
+      url +=`?token=${this.token}`;
+
+      return this.http.get(url).pipe(
+        map((resp:any) =>{
+          this.token = resp.token;
+          localStorage.setItem('token',this.token);
+          return true;
+        }), catchError(err=>{
+          this.router.navigate(['/login']);
+          Swal.fire({
+            title: 'No se pudo renovar token:',
+            text: 'No se pudo renovar token',
+            icon: 'error'});
+    
+          return Observable.throw(err);
+        })
+      );
+
+    }
+
   cargarStorage(){
 
     if(localStorage.getItem('token')){
@@ -100,7 +122,8 @@ export class UsuarioService {
         text: err.error.mensaje,
         icon: 'error'});
 
-      return Observable.throw(err);})
+      return Observable.throw(err);
+    })
       );
 
   }
@@ -116,7 +139,16 @@ export class UsuarioService {
           text: usuario.email,
           icon: 'success'});
       }
-     ));
+     ),
+     catchError(err=>{
+       Swal.fire({
+         title: err.error.mensaje,
+         text: err.error.errors.message,
+         icon: 'error'});
+ 
+       return Observable.throw(err);})
+     
+     );
 
    }
 
